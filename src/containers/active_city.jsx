@@ -1,16 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
-class ActiveCity extends Component {
-  render() {
-/*    const style = {
-      backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('${this.props.city.imageUrl}')`
-    }; */
+const ActiveCity = (props) => {
+  if (!props.activeCity) {
     return (
-      <div className="col-sm-7 active-city" >
-
+      <div className = "active-city">
+        <p>Select a city</p>
       </div>
     );
   }
+  const url = `https://kitt.lewagon.com/placeholder/cities/${props.activeCity.slug}`;
+  return (
+    <div className="active-city" >
+      <h3>{props.activeCity.name}</h3>
+      <p>{props.activeCity.address}</p>
+      <img src={url} width="100%" alt="selected le wagon city" />
+    </div>
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    activeCity: state.activeCity
+  };
 }
 
-export default ActiveCity;
+export default connect(mapStateToProps)(ActiveCity);
